@@ -2,12 +2,15 @@ package com.adriannavarrogabino.models.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -25,9 +28,8 @@ public class Libro implements Serializable {
 	private String titulo;
 
 	/*
-	 * Habrá libros que solo tengan isbn10 o isbn13, o que tengan los 2.
-	 * Si les pongo la anotación de UK a los dos campos, ¿habrá problemas?
-	 * INVESTIGAR
+	 * Habrá libros que solo tengan isbn10 o isbn13, o que tengan los 2. Si les
+	 * pongo la anotación de UK a los dos campos, ¿habrá problemas? INVESTIGAR
 	 */
 	@Size(min = 10, max = 10)
 	@Column(length = 10)
@@ -42,6 +44,9 @@ public class Libro implements Serializable {
 
 	@Column(name = "fecha_publicacion")
 	private Date fechaPublicacion;
+
+	@ManyToMany(mappedBy = "libros")
+	private Set<Autor> autores = new HashSet(0);
 
 	public Long getId() {
 		return id;
@@ -101,6 +106,14 @@ public class Libro implements Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public Set<Autor> getAutores() {
+		return autores;
+	}
+
+	public void setAutores(Set<Autor> autores) {
+		this.autores = autores;
 	}
 
 	/**

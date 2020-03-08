@@ -2,12 +2,15 @@ package com.adriannavarrogabino.models.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -64,6 +67,9 @@ public class Usuario implements Serializable {
 	@DateTimeFormat(pattern = "yyyy-MM-dd hh:mm")
 	@Temporal(TemporalType.DATE)
 	private Date accesoActual;
+
+	@ManyToMany(mappedBy = "usuarios")
+	private Set<Grupo> grupos = new HashSet(0);
 
 	public Long getId() {
 		return id;
@@ -139,6 +145,14 @@ public class Usuario implements Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public Set<Grupo> getGrupos() {
+		return grupos;
+	}
+
+	public void setGrupos(Set<Grupo> grupos) {
+		this.grupos = grupos;
 	}
 
 	/**

@@ -1,15 +1,20 @@
 package com.adriannavarrogabino.models.entity;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import javax.persistence.JoinColumn;
 
 @Entity
 @Table(name = "autores")
@@ -25,6 +30,10 @@ public class Autor implements Serializable {
 	private String nombre;
 
 	private String nacionalidad;
+
+	@ManyToMany
+	@JoinTable(name = "libros_autores", joinColumns = @JoinColumn(name = "id_libro"), inverseJoinColumns = @JoinColumn(name = "id_autor"))
+	private Set<Libro> libros = new HashSet(0);
 
 	public Long getId() {
 		return id;
@@ -48,6 +57,14 @@ public class Autor implements Serializable {
 
 	public void setNacionalidad(String nacionalidad) {
 		this.nacionalidad = nacionalidad;
+	}
+
+	public Set<Libro> getLibros() {
+		return libros;
+	}
+
+	public void setLibros(Set<Libro> libros) {
+		this.libros = libros;
 	}
 
 	/**

@@ -1,0 +1,1 @@
+INSERT INTO usuarios (username, password, nombre, apellidos, correo, fecha_nacimiento, acceso_actual, ultimo_acceso) VALUES ('adriannavarro', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 'Adrián', 'Navarro Gabino', 'adrian@adrian.com', '1994-05-09', NOW(), NOW());

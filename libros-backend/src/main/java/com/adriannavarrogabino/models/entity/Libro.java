@@ -46,7 +46,7 @@ public class Libro implements Serializable {
 	private Date fechaPublicacion;
 
 	@ManyToMany(mappedBy = "libros")
-	private Set<Autor> autores = new HashSet(0);
+	private Set<Autor> autores = new HashSet<Autor>(0);
 
 	public Long getId() {
 		return id;

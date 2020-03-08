@@ -59,17 +59,17 @@ public class Usuario implements Serializable {
 	private Date fechaNacimiento;
 
 	@Column(name = "ultimo_acceso")
-	@DateTimeFormat(pattern = "yyyy-MM-dd hh:mm")
-	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date ultimoAcceso;
 
 	@Column(name = "acceso_actual")
-	@DateTimeFormat(pattern = "yyyy-MM-dd hh:mm")
-	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date accesoActual;
 
 	@ManyToMany(mappedBy = "usuarios")
-	private Set<Grupo> grupos = new HashSet(0);
+	private Set<Grupo> grupos = new HashSet<Grupo>(0);
 
 	public Long getId() {
 		return id;

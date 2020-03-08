@@ -31,7 +31,7 @@ public class Grupo implements Serializable {
 	
 	@ManyToMany
 	@JoinTable(name = "usuarios_grupos", joinColumns = @JoinColumn(name = "id_usuario"), inverseJoinColumns = @JoinColumn(name = "id_grupo"))
-	private Set<Usuario> usuarios = new HashSet(0);
+	private Set<Usuario> usuarios = new HashSet<Usuario>(0);
 
 	public Long getId() {
 		return id;

@@ -33,7 +33,7 @@ public class Autor implements Serializable {
 
 	@ManyToMany
 	@JoinTable(name = "libros_autores", joinColumns = @JoinColumn(name = "id_libro"), inverseJoinColumns = @JoinColumn(name = "id_autor"))
-	private Set<Libro> libros = new HashSet(0);
+	private Set<Libro> libros = new HashSet<Libro>(0);
 
 	public Long getId() {
 		return id;

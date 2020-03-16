@@ -39,11 +39,10 @@ public class Libro implements Serializable {
 	@Column(length = 13)
 	private String isbn13;
 
-	private String encuadernacion;
 	private String editorial;
 
 	@Column(name = "fecha_publicacion")
-	private Date fechaPublicacion;
+	private String fechaPublicacion;
 
 	@ManyToMany(mappedBy = "libros")
 	private Set<Autor> autores = new HashSet<Autor>(0);
@@ -80,14 +79,6 @@ public class Libro implements Serializable {
 		this.isbn13 = isbn13;
 	}
 
-	public String getEncuadernacion() {
-		return encuadernacion;
-	}
-
-	public void setEncuadernacion(String encuadernacion) {
-		this.encuadernacion = encuadernacion;
-	}
-
 	public String getEditorial() {
 		return editorial;
 	}
@@ -96,11 +87,11 @@ public class Libro implements Serializable {
 		this.editorial = editorial;
 	}
 
-	public Date getFechaPublicacion() {
+	public String getFechaPublicacion() {
 		return fechaPublicacion;
 	}
 
-	public void setFechaPublicacion(Date fechaPublicacion) {
+	public void setFechaPublicacion(String fechaPublicacion) {
 		this.fechaPublicacion = fechaPublicacion;
 	}
 

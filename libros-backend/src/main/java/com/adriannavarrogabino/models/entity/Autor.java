@@ -25,9 +25,10 @@ public class Autor implements Serializable {
 	private Long id;
 
 	@NotEmpty(message = "El nombre no puede estar vacío")
-	@Size(min = 3, max = 40, message = "El tamaño del nombre tiene que estar entre 3 y 40")
 	@Column(nullable = false)
 	private String nombre;
+
+	private String apellidos;
 
 	private String nacionalidad;
 
@@ -49,6 +50,14 @@ public class Autor implements Serializable {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	public String getApellidos() {
+		return apellidos;
+	}
+
+	public void setApellidos(String apellidos) {
+		this.apellidos = apellidos;
 	}
 
 	public String getNacionalidad() {

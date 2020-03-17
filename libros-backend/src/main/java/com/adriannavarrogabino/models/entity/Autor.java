@@ -14,6 +14,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.JoinColumn;
 
 @Entity
@@ -34,6 +37,7 @@ public class Autor implements Serializable {
 
 	@ManyToMany
 	@JoinTable(name = "libros_autores", joinColumns = @JoinColumn(name = "id_autor"), inverseJoinColumns = @JoinColumn(name = "id_libro"))
+	@JsonIgnore
 	private Set<Libro> libros = new HashSet<Libro>(0);
 
 	public Long getId() {

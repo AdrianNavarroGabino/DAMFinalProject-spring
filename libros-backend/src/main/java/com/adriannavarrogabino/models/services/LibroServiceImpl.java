@@ -20,4 +20,22 @@ public class LibroServiceImpl implements ILibroService {
 	public List<Libro> findAll() {
 		return (List<Libro>) libroDao.findAll();
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Libro findById(Long id) {
+		return libroDao.findById(id).orElse(null);
+	}
+
+	@Override
+	@Transactional
+	public Libro save(Libro libro) {
+		return libroDao.save(libro);
+	}
+
+	@Override
+	@Transactional
+	public void delete(Long id) {
+		libroDao.deleteById(id);
+	}
 }

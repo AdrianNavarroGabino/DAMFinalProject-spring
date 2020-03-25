@@ -86,15 +86,10 @@ public class LibroRestController {
 	}
 	
 	@PutMapping("/libros/{id}")
-<<<<<<< HEAD
-=======
-	@ResponseStatus(HttpStatus.CREATED)
->>>>>>> master
 	public ResponseEntity<?> update(@RequestBody Libro libro, @PathVariable Long id)
 	{
 		Libro libroActual = libroService.findById(id);
 		Libro libroUpdated = null;
-<<<<<<< HEAD
 		
 		Map<String, Object> response = new HashMap<>();
 		
@@ -120,33 +115,6 @@ public class LibroRestController {
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
-=======
-		
-		Map<String, Object> response = new HashMap<>();
-		
-		if(libroActual == null)
-		{
-			response.put("mensaje", "El libro no existe en la base de datos");
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
-		}
-		
-		try
-		{
-			libroActual.setTitulo(libro.getTitulo());
-			libroActual.setEditorial(libro.getEditorial());
-			libroActual.setFechaPublicacion(libro.getFechaPublicacion());
-			
-			libroUpdated = libroService.save(libroActual);
-		}
-		catch(DataAccessException e)
-		{
-			response.put("mensaje", "Error al realizar el update en la base de datos");
-			response.put("error", e.getMessage()
-					.concat(": ").concat(e.getMostSpecificCause().getMessage()));
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		
->>>>>>> master
 		response.put("mensaje", "El libro ha sido actualizado con éxito");
 		response.put("libro", libroUpdated);
 		

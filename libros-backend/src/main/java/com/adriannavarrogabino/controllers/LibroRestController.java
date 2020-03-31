@@ -38,7 +38,7 @@ public class LibroRestController {
 		return libroService.findAll(pageable);
 	}
 	
-	@GetMapping("/libros/{page}")
+	@GetMapping("/libros/page/{page}")
 	public Page<Libro> index(@PathVariable Integer page)
 	{
 		Pageable pageable = PageRequest.of(page, 10);

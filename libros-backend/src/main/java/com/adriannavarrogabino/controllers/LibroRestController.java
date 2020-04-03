@@ -236,7 +236,15 @@ public class LibroRestController {
 		
 		if(!recurso.exists() || !recurso.isReadable())
 		{
-			throw new RuntimeException("Error. No se pudo cargar la imagen");
+			rutaArchivo = Paths.get("src/main/resources/static/images").resolve("no-portada.png").toAbsolutePath();
+			
+			try {
+				recurso = new UrlResource(rutaArchivo.toUri());
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
+			
+			log.error("Error. No se pudo cargar la imagen");
 		}
 		
 		HttpHeaders cabecera = new HttpHeaders();

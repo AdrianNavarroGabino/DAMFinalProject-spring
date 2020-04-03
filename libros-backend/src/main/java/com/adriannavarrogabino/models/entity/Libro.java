@@ -47,6 +47,8 @@ public class Libro implements Serializable {
 	@ManyToMany(mappedBy = "libros")
 	private Set<Autor> autores = new HashSet<Autor>(0);
 
+	private String foto;
+
 	public Long getId() {
 		return id;
 	}
@@ -105,6 +107,14 @@ public class Libro implements Serializable {
 
 	public void setAutores(Set<Autor> autores) {
 		this.autores = autores;
+	}
+
+	public String getFoto() {
+		return foto;
+	}
+
+	public void setFoto(String foto) {
+		this.foto = foto;
 	}
 
 	/**

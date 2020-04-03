@@ -8,6 +8,8 @@ INSERT INTO libros (titulo, isbn10, isbn13, editorial, fecha_publicacion) VALUES
 INSERT INTO autores (nombre, apellidos) VALUES ('Alberto J.', 'Lleonart Y Amsélem');
 INSERT INTO libros_autores (id_libro, id_autor) VALUES ((SELECT id FROM libros WHERE isbn10 = '8400000021'), (SELECT id FROM autores WHERE nombre = 'Alberto J.' AND apellidos = 'Lleonart Y Amsélem'));
 INSERT INTO libros (titulo, isbn10, isbn13, editorial, fecha_publicacion) VALUES ('Romancero De La Muerte Del Ché Guevara (colección Homenaje ; 3) (spanish Edition)', '8400000048', '9788400000042', 'Publicaciones Arte Y Cultura', '1976');
+INSERT INTO autores (nombre, apellidos) VALUES ('José G', 'Ladrón de Guevara');
+INSERT INTO libros_autores (id_libro, id_autor) VALUES ((SELECT id FROM libros WHERE isbn10 = '8400000048'), (SELECT id FROM autores WHERE nombre = 'José G' AND apellidos = 'Ladrón de Guevara'));
 INSERT INTO libros (titulo, isbn10, isbn13, editorial, fecha_publicacion) VALUES ('Salvador Jacinto Polo De Medina (1603-1676) (biografías Populares De Murcianos Ilustres ; 6) (spanish Edition)', '8400000056', '9788400000059', 'Academia Alfonso X El Sabio', '1976');
 INSERT INTO libros (titulo, isbn10, isbn13, editorial, fecha_publicacion) VALUES ('Gloses I Estribots: Pel Col·legi De Can Bonet, De Sant Antoni De  Portmany, Eivissa (col·lecció Nit De Sant Joan ; No. 4) (catalan Edition)', '8400000064', '9788400000066', 'Institut D''estudis Eivissencs', '1976');
 INSERT INTO libros (titulo, isbn10, isbn13, editorial, fecha_publicacion) VALUES ('Manual De Vexilologia: Nociones Y Terminos Propios De La Ciencia De Las Banderas (spanish Edition)', '8400000099', '9788400000097', 'Hidalguia', '1976');
@@ -7389,10 +7391,9 @@ INSERT INTO libros (titulo, isbn10, isbn13, editorial, fecha_publicacion) VALUES
 INSERT INTO libros (titulo, isbn10, isbn13, editorial, fecha_publicacion) VALUES ('La Oscura Historia De La Prima Montse (spanish Edition)', '8401428114', '9788401428111', 'Plaza & Janes Editores, S.a.', '1998');
 INSERT INTO libros (titulo, isbn10, isbn13, editorial, fecha_publicacion) VALUES ('Un Dia Volvere', '8401428122', '9788401428128', 'Plaza Y Janes', '1993');
 INSERT INTO libros (titulo, isbn10, isbn13, editorial, fecha_publicacion) VALUES ('Teniente Bravo', '8401428130', '9788401428135', 'Plaza & Janes Editories Sa', '1998');
-INSERT INTO autores (nombre, apellidos) VALUES ('Juan Marsé', 'Juan Marse');
-INSERT INTO libros_autores (id_libro, id_autor) VALUES ((SELECT id FROM libros WHERE isbn10 = '8401428130'), (SELECT id FROM autores WHERE nombre = 'Juan Marsé' AND apellidos = 'Juan Marse'));
+INSERT INTO libros_autores (id_libro, id_autor) VALUES ((SELECT id FROM libros WHERE isbn10 = '8401428130'), (SELECT id FROM autores WHERE nombre = 'Juan' AND apellidos = 'Marsé'));
 INSERT INTO libros (titulo, isbn10, isbn13, editorial, fecha_publicacion) VALUES ('Ultimás Tardes Con Teresa', '8401428157', '9788401428159', 'Plaza & Janes Editores, S.a.', '1966');
-INSERT INTO libros_autores (id_libro, id_autor) VALUES ((SELECT id FROM libros WHERE isbn10 = '8401428157'), (SELECT id FROM autores WHERE nombre = 'Juan Marsé' AND apellidos = 'Juan Marse'));
+INSERT INTO libros_autores (id_libro, id_autor) VALUES ((SELECT id FROM libros WHERE isbn10 = '8401428157'), (SELECT id FROM autores WHERE nombre = 'Juan' AND apellidos = 'Marsé'));
 INSERT INTO libros (titulo, isbn10, isbn13, editorial, fecha_publicacion) VALUES ('La Ronda De Guinardó', '8401428165', '9788401428166', 'Plaza & Janes S.a.,spain', '1998');
 INSERT INTO libros (titulo, isbn10, isbn13, editorial, fecha_publicacion) VALUES ('El Embrujo De Shanghai', '8401428173', '9788401428173', 'Plaza Janés', '2000');
 INSERT INTO libros (titulo, isbn10, isbn13, editorial, fecha_publicacion) VALUES ('El Dolor (biblioteca De Autor, 157/1)', '8401428319', '9788401428319', 'Plaza & Janes', '1993');
@@ -9420,7 +9421,6 @@ INSERT INTO libros (titulo, isbn10, isbn13, editorial, fecha_publicacion) VALUES
 INSERT INTO libros (titulo, isbn10, isbn13, editorial, fecha_publicacion) VALUES ('Para Esta Noche (libro Amigo ; 519) (spanish Edition)', '8402055192', '9788402055194', 'Bruguera', '1978');
 INSERT INTO libros (titulo, isbn10, isbn13, editorial, fecha_publicacion) VALUES ('Miedo Y Tristeza. Traduccón De Ana Goldar.', '8402055206', '9788402055200', 'Bruguera, Colección Libro Amigo Nº 544, 1978, Barcelona.', '1978');
 INSERT INTO libros (titulo, isbn10, isbn13, editorial, fecha_publicacion) VALUES ('Encerrados Con Un Solo Juguete', '8402055214', '9788402055217', 'Bruguera', '1969');
-INSERT INTO autores (nombre, apellidos) VALUES ('Juan', 'Marsé');
 INSERT INTO libros_autores (id_libro, id_autor) VALUES ((SELECT id FROM libros WHERE isbn10 = '8402055214'), (SELECT id FROM autores WHERE nombre = 'Juan' AND apellidos = 'Marsé'));
 INSERT INTO libros (titulo, isbn10, isbn13, editorial, fecha_publicacion) VALUES ('La Increíble Y Triste Historia De La Cándida Eréndira Y De Su Abuela Desalmada', '8402056083', '9788402056085', 'Bruguera', '1978');
 INSERT INTO autores (nombre, apellidos) VALUES ('Gabriel ', 'García Márquez');
@@ -9751,7 +9751,6 @@ INSERT INTO libros (titulo, isbn10, isbn13, editorial, fecha_publicacion) VALUES
 INSERT INTO libros (titulo, isbn10, isbn13, editorial, fecha_publicacion) VALUES ('El Contexto: Una Parodia', '8402084141', '9788402084149', 'Bruguera', '1981');
 INSERT INTO libros (titulo, isbn10, isbn13, editorial, fecha_publicacion) VALUES ('Cuentos Del Lunes', '8402084214', '9788402084217', 'Bruguera.', '1981');
 INSERT INTO libros (titulo, isbn10, isbn13, editorial, fecha_publicacion) VALUES ('Colección Todolibro 083: El Pijoaparte Y Otras Historias', '8402084397', '9788402084392', 'Bruguera', '1981');
-INSERT INTO autores (nombre, apellidos) VALUES ('Juan', 'Marsé');
 INSERT INTO libros_autores (id_libro, id_autor) VALUES ((SELECT id FROM libros WHERE isbn10 = '8402084397'), (SELECT id FROM autores WHERE nombre = 'Juan' AND apellidos = 'Marsé'));
 INSERT INTO libros (titulo, isbn10, isbn13, editorial, fecha_publicacion) VALUES ('Pedro Paramo', '8402084443', '9788402084446', 'Bruguera', '1981');
 INSERT INTO libros (titulo, isbn10, isbn13, editorial, fecha_publicacion) VALUES ('Las Aventuras De Huckleberry Finn', '8402084494', '9788402084491', 'Bruguera.', '1981');

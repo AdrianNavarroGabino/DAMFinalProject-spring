@@ -61,6 +61,13 @@ public class LibroRestController {
 		return libroService.findAll(pageable);
 	}
 	
+	@GetMapping("/libros/android/page/{page}")
+	public Page<Libro> indexAndroid(@PathVariable Integer page)
+	{
+		Pageable pageable = PageRequest.of(page, 5);
+		return libroService.findAll(pageable);
+	}
+	
 	@GetMapping("/libros/{id}")
 	public ResponseEntity<?> show(@PathVariable Long id)
 	{

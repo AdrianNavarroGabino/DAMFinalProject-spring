@@ -21,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -68,6 +69,7 @@ public class LibroRestController {
 		return libroService.findAll(pageable);
 	}
 	
+	@Secured({"ROLE_USER", "ROLE_ADMIN"})
 	@GetMapping("/libros/{id}")
 	public ResponseEntity<?> show(@PathVariable Long id)
 	{
@@ -94,6 +96,7 @@ public class LibroRestController {
 		return new ResponseEntity<Libro>(libro, HttpStatus.OK);
 	}
 	
+	@Secured({"ROLE_USER", "ROLE_ADMIN"})
 	@PostMapping("/libros")
 	public ResponseEntity<?> create(@RequestBody Libro libro)
 	{
@@ -118,6 +121,7 @@ public class LibroRestController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	
+	@Secured({"ROLE_USER", "ROLE_ADMIN"})
 	@PutMapping("/libros/{id}")
 	public ResponseEntity<?> update(@RequestBody Libro libro, @PathVariable Long id)
 	{
@@ -154,6 +158,7 @@ public class LibroRestController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	
+	@Secured({"ROLE_ADMIN"})
 	@DeleteMapping("/libros/{id}")
 	public ResponseEntity<?> delete(@PathVariable Long id)
 	{
@@ -188,6 +193,7 @@ public class LibroRestController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 	
+	@Secured({"ROLE_USER", "ROLE_ADMIN"})
 	@PostMapping("/libros/upload")
 	public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo, @RequestParam("id") Long id) {
 		Map<String, Object> response = new HashMap<>();

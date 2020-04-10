@@ -33,9 +33,10 @@ public class UsuarioServiceImpl implements IUsuarioService, UserDetailsService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Usuario findByUsername(String username) {
-		// TODO Auto-generated method stub
-		return null;
+
+		return usuarioDao.findByUsername(username);
 	}
 
 	@Override

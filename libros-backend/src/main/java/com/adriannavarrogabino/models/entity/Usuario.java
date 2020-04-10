@@ -3,17 +3,24 @@ package com.adriannavarrogabino.models.entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -28,6 +35,17 @@ public class Usuario implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@NotEmpty(message = "El usuario no puede estar vacío")
+	@Size(min = 3, max = 20, message = "El tamaño del nombre tiene que estar entre 3 y 20")
+	@Column(nullable = false, unique = true)
+	private String username;
+
+	@NotEmpty(message = "La contraseña no puede estar vacía")
+	@Column(length = 60)
+	private String password;
+
+	private boolean enabled;
+
 	@NotEmpty(message = "El nombre no puede estar vacío")
 	@Size(min = 3, max = 25, message = "El tamaño del nombre tiene que estar entre 3 y 25")
 	@Column(nullable = false)
@@ -38,20 +56,10 @@ public class Usuario implements Serializable {
 	@Column(nullable = false)
 	private String apellidos;
 
-	@NotEmpty(message = "El usuario no puede estar vacío")
-	@Size(min = 3, max = 20, message = "El tamaño del nombre tiene que estar entre 3 y 20")
-	@Column(nullable = false, unique = true)
-	private String username;
-
 	@NotEmpty(message = "El email no puede estar vacío")
 	@Email(message = "El email no es una dirección de correo bien formada")
 	@Column(nullable = false, unique = true)
 	private String correo;
-
-	@NotEmpty(message = "La contraseña no puede estar vacía")
-	@Size(min = 4, message = "El tamaño de la contraseña tiene que ser mayor que 3")
-	@Column(nullable = false)
-	private String password;
 
 	@Column(name = "fecha_nacimiento")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -70,6 +78,17 @@ public class Usuario implements Serializable {
 
 	@ManyToMany(mappedBy = "usuarios")
 	private Set<Grupo> grupos = new HashSet<Grupo>(0);
+
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "usuarios_roles", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "rol_id"), uniqueConstraints = {
+			@UniqueConstraint(columnNames = { "usuario_id", "rol_id" }) })
+	private List<Role> roles;
+	
+	@PrePersist
+	public void prePersist() {
+		this.ultimoAcceso = new Date();
+		this.accesoActual = new Date();
+	}
 
 	public Long getId() {
 		return id;
@@ -143,16 +162,28 @@ public class Usuario implements Serializable {
 		this.accesoActual = accesoActual;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
 	public Set<Grupo> getGrupos() {
 		return grupos;
 	}
 
 	public void setGrupos(Set<Grupo> grupos) {
 		this.grupos = grupos;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
 	}
 
 	/**

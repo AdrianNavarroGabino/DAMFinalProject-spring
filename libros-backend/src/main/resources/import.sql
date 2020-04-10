@@ -5446,4 +5446,12 @@ INSERT INTO public.libros_autores (id_autor, id_libro) VALUES (1649, 7482);
 INSERT INTO public.libros_autores (id_autor, id_libro) VALUES (1650, 7486);
 INSERT INTO public.libros_autores (id_autor, id_libro) VALUES (1651, 7487);
 
-INSERT INTO public.usuarios (id, acceso_actual, apellidos, correo, fecha_nacimiento, nombre, password, ultimo_acceso, username) VALUES (1, '2020-04-04 19:11:38.870498', 'Navarro Gabino', 'adrian@adrian.com', '1994-05-09', 'Adrián', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', '2020-04-04 19:11:38.870498', 'adriannavarro');
+INSERT INTO usuarios (username, password, enabled, nombre, apellidos, correo) VALUES ('adrian', '$2a$10$CtFYKSwnVrrRgzIUTV5u4OWCgz/eAUMEZoxpjPg2Ush9V7r653V2e', true, 'Adrián', 'Navarro Gabino', 'adrian@navarro.com');
+INSERT INTO usuarios (username, password, enabled, nombre, apellidos, correo) VALUES ('admin', '$2a$10$yFjdiWrU5sYh/dIu3oo0wORtMU4ab8YQibIdNt3yb8mJA3nSv9sTK', true, 'Admin', 'Admin', 'admin@admin.com');
+
+INSERT INTO roles (nombre) VALUES ('ROLE_USER');
+INSERT INTO roles (nombre) VALUES ('ROLE_ADMIN');
+
+INSERT INTO usuarios_roles (usuario_id, rol_id) VALUES (1, 1);
+INSERT INTO usuarios_roles (usuario_id, rol_id) VALUES (2, 2);
+INSERT INTO usuarios_roles (usuario_id, rol_id) VALUES (2, 1);

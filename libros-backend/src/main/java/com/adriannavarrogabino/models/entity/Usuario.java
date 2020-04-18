@@ -2,9 +2,7 @@ package com.adriannavarrogabino.models.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -26,6 +25,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "usuarios")
@@ -77,7 +78,12 @@ public class Usuario implements Serializable {
 	private Date accesoActual;
 
 	@ManyToMany(mappedBy = "usuarios")
-	private Set<Grupo> grupos = new HashSet<Grupo>(0);
+	private List<Grupo> grupos;
+	
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "usuario_id")
+	private List<Estanteria> estanterias;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "usuarios_roles", joinColumns = @JoinColumn(name = "usuario_id"),
@@ -163,11 +169,11 @@ public class Usuario implements Serializable {
 		this.accesoActual = accesoActual;
 	}
 
-	public Set<Grupo> getGrupos() {
+	public List<Grupo> getGrupos() {
 		return grupos;
 	}
 
-	public void setGrupos(Set<Grupo> grupos) {
+	public void setGrupos(List<Grupo> grupos) {
 		this.grupos = grupos;
 	}
 
@@ -177,6 +183,14 @@ public class Usuario implements Serializable {
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+	}
+
+	public List<Estanteria> getEstanterias() {
+		return estanterias;
+	}
+
+	public void setEstanterias(List<Estanteria> estanterias) {
+		this.estanterias = estanterias;
 	}
 
 	public List<Role> getRoles() {

@@ -41,6 +41,13 @@ public class UsuarioServiceImpl implements IUsuarioService, UserDetailsService {
 
 	@Override
 	@Transactional(readOnly = true)
+	public Usuario findById(Long id) {
+
+		return usuarioDao.findById(id).orElse(null);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
 		Usuario usuario = usuarioDao.findByUsername(username);
@@ -59,5 +66,4 @@ public class UsuarioServiceImpl implements IUsuarioService, UserDetailsService {
 		
 		return new User(username, usuario.getPassword(), usuario.isEnabled(), true, true, true, authorities);
 	}
-
 }

@@ -13,6 +13,8 @@ public interface ILibroService {
 	
 	public Page<Libro> findAll(Pageable pageable);
 	
+	public Page<Libro> findLibrosPorAutor(String autor, Pageable pageable);
+	
 	public Libro findById(Long id);
 	
 	public Libro save(Libro libro);

@@ -1,9 +1,6 @@
 package com.adriannavarrogabino.controllers;
 
-import java.io.File;
-import java.io.IOException;
 import java.net.MalformedURLException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -30,9 +27,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.adriannavarrogabino.models.entity.Libro;
 import com.adriannavarrogabino.models.services.ILibroService;
@@ -60,6 +55,13 @@ public class LibroRestController {
 	{
 		Pageable pageable = PageRequest.of(page, 10);
 		return libroService.findAll(pageable);
+	}
+	
+	@GetMapping("/autor/{autor}/page/{page}")
+	public Page<Libro> librosPorAutor(@PathVariable String autor, @PathVariable Integer page)
+	{
+		Pageable pageable = PageRequest.of(page, 10);
+		return libroService.findLibrosPorAutor(autor, pageable);
 	}
 	
 	@GetMapping("/libros/android/page/{page}")
@@ -139,8 +141,12 @@ public class LibroRestController {
 		try
 		{
 			libroActual.setTitulo(libro.getTitulo());
-			libroActual.setEditorial(libro.getEditorial());
-			libroActual.setFechaPublicacion(libro.getFechaPublicacion());
+			libroActual.setAutor(libro.getAutor());
+			libroActual.setIdioma(libro.getIdioma());
+			libroActual.setPaginas(libro.getPaginas());
+			libroActual.setGeneros(libro.getGeneros());
+			libroActual.setAnyoPublicacion(libro.getAnyoPublicacion());
+			libroActual.setValoracion(libro.getValoracion());
 			
 			libroUpdated = libroService.save(libroActual);
 		}
@@ -165,19 +171,6 @@ public class LibroRestController {
 		Map<String, Object> response = new HashMap<>();
 		try
 		{
-			Libro libro = libroService.findById(id);
-			
-			String nombreFotoAnterior = libro.getFoto();
-			
-			if (nombreFotoAnterior != null && nombreFotoAnterior.length() > 0) {
-				Path rutaFotoAnterior = Paths.get("uploads").resolve(nombreFotoAnterior).toAbsolutePath();
-				File archivoFotoAnterior = rutaFotoAnterior.toFile();
-
-				if (archivoFotoAnterior.exists() && archivoFotoAnterior.canRead()) {
-					archivoFotoAnterior.delete();
-				}
-			}
-			
 			libroService.delete(id);
 		}
 		catch(DataAccessException e)
@@ -193,51 +186,9 @@ public class LibroRestController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 	
-	@Secured({"ROLE_USER", "ROLE_ADMIN"})
-	@PostMapping("/libros/upload")
-	public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo, @RequestParam("id") Long id) {
-		Map<String, Object> response = new HashMap<>();
-
-		Libro libro = libroService.findById(id);
-
-		if (!archivo.isEmpty()) {
-			String nombreArchivo = (libro.getIsbn10() != null ? libro.getIsbn10() : libro.getIsbn13()) + "_" + archivo.getOriginalFilename().replace(" ", "");
-			Path rutaArchivo = Paths.get("uploads").resolve(nombreArchivo).toAbsolutePath();
-			log.info(rutaArchivo.toString());
-
-			try {
-				Files.copy(archivo.getInputStream(), rutaArchivo);
-			} catch (IOException e) {
-				response.put("mensaje", "Error al subir la imagen del libro " + nombreArchivo);
-				response.put("error", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
-				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-			}
-
-			String nombreFotoAnterior = libro.getFoto();
-
-			if (nombreFotoAnterior != null && nombreFotoAnterior.length() > 0) {
-				Path rutaFotoAnterior = Paths.get("uploads").resolve(nombreFotoAnterior).toAbsolutePath();
-				File archivoFotoAnterior = rutaFotoAnterior.toFile();
-
-				if (archivoFotoAnterior.exists() && archivoFotoAnterior.canRead()) {
-					archivoFotoAnterior.delete();
-				}
-			}
-
-			libro.setFoto(nombreArchivo);
-
-			libroService.save(libro);
-
-			response.put("libro", libro);
-			response.put("mensaje", "Has subido correctamente la imagen: " + nombreArchivo);
-		}
-
-		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
-	}
-
 	@GetMapping("/uploads/img/{nombreFoto:.+}")
-	public ResponseEntity<Resource> verFoto(@PathVariable String nombreFoto) {
-		Path rutaArchivo = Paths.get("uploads").resolve(nombreFoto).toAbsolutePath();
+	public ResponseEntity<Resource> verFoto(@PathVariable String idFoto) {
+		Path rutaArchivo = Paths.get("https://www.ebookelo.com/images/cover/" + idFoto + ".jpg");
 		log.info(rutaArchivo.toString());
 		Resource recurso = null;
 

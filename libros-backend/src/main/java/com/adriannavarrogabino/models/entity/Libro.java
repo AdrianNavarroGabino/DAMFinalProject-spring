@@ -1,18 +1,22 @@
 package com.adriannavarrogabino.models.entity;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.ManyToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "libros")
@@ -22,31 +26,34 @@ public class Libro implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column(name = "id_foto")
+	private Long idFoto;
+
 	@NotEmpty(message = "El título no puede estar vacío")
 	@Column(nullable = false)
 	private String titulo;
 
-	/*
-	 * Habrá libros que solo tengan isbn10 o isbn13, o que tengan los 2. Si les
-	 * pongo la anotación de UK a los dos campos, ¿habrá problemas? INVESTIGAR
-	 */
-	@Size(min = 10, max = 10)
-	@Column(length = 10)
-	private String isbn10;
+	private String autor;
 
-	@Size(min = 13, max = 13)
-	@Column(length = 13)
-	private String isbn13;
+	private String idioma;
 
-	private String editorial;
+	@Column(name = "anyo_publicacion")
+	private String anyoPublicacion;
 
-	@Column(name = "fecha_publicacion")
-	private String fechaPublicacion;
+	private Double valoracion;
 
-	@ManyToMany(mappedBy = "libros")
-	private Set<Autor> autores = new HashSet<Autor>(0);
+	private Integer paginas;
 
-	private String foto;
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "libros_generos", joinColumns = @JoinColumn(name = "id_libro"),
+		inverseJoinColumns = @JoinColumn(name = "id_genero"), uniqueConstraints = {
+			@UniqueConstraint(columnNames = { "id_libro", "id_genero" }) })
+	private List<Genero> generos;
+
+	@PrePersist
+	public void prepersist() {
+		generos = new ArrayList<>();
+	}
 
 	public Long getId() {
 		return id;
@@ -54,6 +61,14 @@ public class Libro implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Long getIdFoto() {
+		return idFoto;
+	}
+
+	public void setIdFoto(Long idFoto) {
+		this.idFoto = idFoto;
 	}
 
 	public String getTitulo() {
@@ -64,56 +79,56 @@ public class Libro implements Serializable {
 		this.titulo = titulo;
 	}
 
-	public String getIsbn10() {
-		return isbn10;
+	public String getAutor() {
+		return autor;
 	}
 
-	public void setIsbn10(String isbn10) {
-		this.isbn10 = isbn10;
+	public void setAutor(String autor) {
+		this.autor = autor;
 	}
 
-	public String getIsbn13() {
-		return isbn13;
+	public String getIdioma() {
+		return idioma;
 	}
 
-	public void setIsbn13(String isbn13) {
-		this.isbn13 = isbn13;
+	public void setIdioma(String idioma) {
+		this.idioma = idioma;
 	}
 
-	public String getEditorial() {
-		return editorial;
+	public String getAnyoPublicacion() {
+		return anyoPublicacion;
 	}
 
-	public void setEditorial(String editorial) {
-		this.editorial = editorial;
+	public void setAnyoPublicacion(String anyoPublicacion) {
+		this.anyoPublicacion = anyoPublicacion;
 	}
 
-	public String getFechaPublicacion() {
-		return fechaPublicacion;
+	public Double getValoracion() {
+		return valoracion;
 	}
 
-	public void setFechaPublicacion(String fechaPublicacion) {
-		this.fechaPublicacion = fechaPublicacion;
+	public void setValoracion(Double valoracion) {
+		this.valoracion = valoracion;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public Integer getPaginas() {
+		return paginas;
 	}
 
-	public Set<Autor> getAutores() {
-		return autores;
+	public void setPaginas(Integer paginas) {
+		this.paginas = paginas;
 	}
 
-	public void setAutores(Set<Autor> autores) {
-		this.autores = autores;
+	public List<Genero> getGeneros() {
+		return generos;
 	}
 
-	public String getFoto() {
-		return foto;
+	public void setGeneros(List<Genero> generos) {
+		this.generos = generos;
 	}
 
-	public void setFoto(String foto) {
-		this.foto = foto;
+	public void addGenero(Genero genero) {
+		this.generos.add(genero);
 	}
 
 	/**

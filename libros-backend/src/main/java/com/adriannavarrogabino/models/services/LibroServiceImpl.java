@@ -46,4 +46,9 @@ public class LibroServiceImpl implements ILibroService {
 	public void delete(Long id) {
 		libroDao.deleteById(id);
 	}
+
+	@Override
+	public Page<Libro> findLibrosPorAutor(String autor, Pageable pageable) {
+		return libroDao.findLibrosPorAutor(pageable, autor);
+	}
 }

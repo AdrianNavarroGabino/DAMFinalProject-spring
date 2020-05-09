@@ -1,10 +1,10 @@
-package com.adriannavarrogabino.scraping;
+package main;
 
 import java.io.*;
 import java.net.URL;
 import java.util.*;
 
-public class ScrapingLibros {
+public class ScrapingIsbndb {
 	public static final String url = "https://isbndb.com/book/";
 
     public static String readUrl(String urlString) throws Exception {

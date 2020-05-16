@@ -48,7 +48,19 @@ public class LibroServiceImpl implements ILibroService {
 	}
 
 	@Override
-	public Page<Libro> findLibrosPorAutor(String autor, Pageable pageable) {
+	public Page<Libro> findLibrosPorAutor(Long autor, Pageable pageable) {
 		return libroDao.findLibrosPorAutor(pageable, autor);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Libro> findRandomLibros() {
+		return libroDao.findRandomLibros();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Page<Libro> buscarLibros(Pageable pageable, String buscar) {
+		return libroDao.buscarLibros(pageable, buscar.replace("-", " ").toUpperCase());
 	}
 }

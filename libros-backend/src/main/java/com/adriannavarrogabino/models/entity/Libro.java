@@ -14,9 +14,12 @@ import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "libros")
@@ -33,7 +36,10 @@ public class Libro implements Serializable {
 	@Column(nullable = false)
 	private String titulo;
 
-	private String autor;
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_autor")
+	private Autor autor;
 
 	private String idioma;
 
@@ -79,11 +85,11 @@ public class Libro implements Serializable {
 		this.titulo = titulo;
 	}
 
-	public String getAutor() {
+	public Autor getAutor() {
 		return autor;
 	}
 
-	public void setAutor(String autor) {
+	public void setAutor(Autor autor) {
 		this.autor = autor;
 	}
 

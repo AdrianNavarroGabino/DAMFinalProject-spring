@@ -4,6 +4,7 @@ import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -57,11 +58,21 @@ public class LibroRestController {
 		return libroService.findAll(pageable);
 	}
 	
+	@GetMapping("/libros/rnd")
+	public List<Libro> librosAleatorios() {
+		return libroService.findRandomLibros();
+	}
+	
 	@GetMapping("/autor/{autor}/page/{page}")
-	public Page<Libro> librosPorAutor(@PathVariable String autor, @PathVariable Integer page)
-	{
+	public Page<Libro> librosPorAutor(@PathVariable Long autor, @PathVariable Integer page) {
 		Pageable pageable = PageRequest.of(page, 10);
 		return libroService.findLibrosPorAutor(autor, pageable);
+	}
+	
+	@GetMapping("/{buscar}/page/{page}")
+	public Page<Libro> buscarLibros(@PathVariable String buscar, @PathVariable Integer page) {
+		Pageable pageable = PageRequest.of(page, 10);
+		return libroService.buscarLibros(pageable, buscar);
 	}
 	
 	@GetMapping("/libros/android/page/{page}")

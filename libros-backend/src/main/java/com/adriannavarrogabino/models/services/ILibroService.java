@@ -13,7 +13,11 @@ public interface ILibroService {
 	
 	public Page<Libro> findAll(Pageable pageable);
 	
-	public Page<Libro> findLibrosPorAutor(String autor, Pageable pageable);
+	public List<Libro> findRandomLibros();
+	
+	public Page<Libro> findLibrosPorAutor(Long autor, Pageable pageable);
+	
+	public Page<Libro> buscarLibros(Pageable pageable, String buscar);
 	
 	public Libro findById(Long id);
 	

@@ -32,9 +32,9 @@ public class AutorRestController {
 		return autorService.findAll(pageable);
 	}
 	
-	@GetMapping("/autores/{autor}/page/{page}")
-	public Page<Libro> librosPorAutor(@PathVariable Long autor, @PathVariable Integer page) {
+	@GetMapping("/autores/{id}/page/{page}")
+	public Page<Libro> librosPorAutor(@PathVariable Long id, @PathVariable Integer page) {
 		Pageable pageable = PageRequest.of(page, 10);
-		return libroService.findLibrosPorAutor(autor, pageable);
+		return libroService.findLibrosPorAutor(id, pageable);
 	}
 }

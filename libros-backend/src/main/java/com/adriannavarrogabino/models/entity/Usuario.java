@@ -201,6 +201,16 @@ public class Usuario implements Serializable {
 		this.roles = roles;
 	}
 
+	public List<Usuario> getSeguidos() {
+		return seguidos;
+	}
+
+	public void setSeguidos(List<Usuario> seguidos) {
+		this.seguidos = seguidos;
+	}
+
+
+
 	/**
 	 * 
 	 */

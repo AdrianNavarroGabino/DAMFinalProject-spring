@@ -49,7 +49,7 @@ public class LibroServiceImpl implements ILibroService {
 
 	@Override
 	public Page<Libro> findLibrosPorAutor(Long autor, Pageable pageable) {
-		return libroDao.findLibrosPorAutor(pageable, autor);
+		return libroDao.findLibrosPorAutor(autor, pageable);
 	}
 
 	@Override

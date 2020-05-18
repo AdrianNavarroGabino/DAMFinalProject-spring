@@ -11,8 +11,8 @@ import com.adriannavarrogabino.models.entity.Libro;
 
 public interface ILibroDao extends JpaRepository<Libro, Long> {
 
-	@Query(value = "SELECT l FROM Libro l WHERE l.autor = ?2")
-	public Page<Libro> findLibrosPorAutor(Pageable pageable, Long id);
+	@Query(value = "SELECT * FROM libros WHERE id_autor = ?1", nativeQuery = true)
+	public Page<Libro> findLibrosPorAutor(Long id, Pageable pageable);
 	
 	@Query(value = "SELECT * FROM libros ORDER BY RANDOM() LIMIT 12", nativeQuery = true)
 	public List<Libro> findRandomLibros();

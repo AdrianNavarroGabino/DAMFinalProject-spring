@@ -85,4 +85,33 @@ public class UsuarioRestController {
 		
 		return estanteriaService.save(estanteria);
 	}
+	
+	@PutMapping("/usuario/{idSeguidor}")
+	public Usuario addSeguido(@PathVariable Long idSeguidor, @RequestBody Usuario usuarioSeguido) {
+		Usuario seguidor = usuarioService.findById(idSeguidor);
+		
+		List<Usuario> seguidos = seguidor.getSeguidos();
+		
+		seguidos.add(usuarioSeguido);
+		
+		seguidor.setSeguidos(seguidos);
+		
+		return usuarioService.save(seguidor);
+	}
+	
+	@PutMapping("/usuario/unfollow/{idSeguidor}")
+	public Usuario dejarDeSeguir(@PathVariable Long idSeguidor, @RequestBody Usuario usuarioSeguido) {
+		Usuario seguidor = usuarioService.findById(idSeguidor);
+		Usuario seguido = usuarioService.findById(usuarioSeguido.getId());
+		
+		List<Usuario> seguidos = seguidor.getSeguidos();
+		
+		seguidos.remove(seguido);
+		
+		seguidos.forEach(a -> System.out.println(a.getNombre()));
+		
+		seguidor.setSeguidos(seguidos);
+		
+		return usuarioService.save(seguidor);
+	}
 }

@@ -63,10 +63,10 @@ public class LibroRestController {
 		return libroService.findRandomLibros();
 	}
 	
-	@GetMapping("/{buscar}/page/{page}")
-	public Page<Libro> buscarLibros(@PathVariable String buscar, @PathVariable Integer page) {
+	@PostMapping("libros/buscar/page/{page}")
+	public Page<Libro> buscarLibros(@RequestBody String buscar, @PathVariable Integer page) {
 		Pageable pageable = PageRequest.of(page, 10);
-		return libroService.buscarLibros(pageable, buscar);
+		return libroService.buscarLibros(buscar, pageable);
 	}
 	
 	@GetMapping("/libros/android/page/{page}")
@@ -74,6 +74,12 @@ public class LibroRestController {
 	{
 		Pageable pageable = PageRequest.of(page, 5);
 		return libroService.findAll(pageable);
+	}
+	
+	@GetMapping("/libros/generos/{idGenero}/page/{page}")
+	public Page<Libro> librosPorAutor(@PathVariable Long idGenero, @PathVariable Integer page) {
+		Pageable pageable = PageRequest.of(page, 10);
+		return libroService.findLibrosPorGenero(idGenero, pageable);
 	}
 	
 	@Secured({"ROLE_USER", "ROLE_ADMIN"})

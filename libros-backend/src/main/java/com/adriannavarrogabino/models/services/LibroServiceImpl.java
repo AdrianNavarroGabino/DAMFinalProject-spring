@@ -60,7 +60,13 @@ public class LibroServiceImpl implements ILibroService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Page<Libro> buscarLibros(Pageable pageable, String buscar) {
-		return libroDao.buscarLibros(pageable, buscar.replace("-", " ").toUpperCase());
+	public Page<Libro> buscarLibros(String buscar, Pageable pageable) {
+		return libroDao.buscarLibros(buscar.toUpperCase(), pageable);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Page<Libro> findLibrosPorGenero(Long id, Pageable pageable) {
+		return libroDao.findLibrosPorGenero(id, pageable);
 	}
 }

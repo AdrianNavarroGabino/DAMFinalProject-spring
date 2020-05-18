@@ -17,7 +17,9 @@ public interface ILibroService {
 	
 	public Page<Libro> findLibrosPorAutor(Long autor, Pageable pageable);
 	
-	public Page<Libro> buscarLibros(Pageable pageable, String buscar);
+	public Page<Libro> buscarLibros(String buscar, Pageable pageable);
+	
+	public Page<Libro> findLibrosPorGenero(Long id, Pageable pageable);
 	
 	public Libro findById(Long id);
 	

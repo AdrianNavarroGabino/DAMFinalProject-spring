@@ -1,11 +1,16 @@
 package com.adriannavarrogabino.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,8 +22,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.adriannavarrogabino.models.entity.Estanteria;
 import com.adriannavarrogabino.models.entity.Libro;
+import com.adriannavarrogabino.models.entity.Role;
 import com.adriannavarrogabino.models.entity.Usuario;
 import com.adriannavarrogabino.models.services.IEstanteriaService;
+import com.adriannavarrogabino.models.services.IRoleService;
 import com.adriannavarrogabino.models.services.IUsuarioService;
 
 @CrossOrigin(origins = {"http://localhost:4200"})
@@ -30,9 +37,10 @@ public class UsuarioRestController {
 	
 	@Autowired IEstanteriaService estanteriaService;
 	
+	@Autowired IRoleService roleService;
+	
 	@GetMapping("/usuarios")
-	public List<Usuario> index()
-	{
+	public List<Usuario> index() {
 		return usuarioService.findAll();
 	}
 	
@@ -53,6 +61,35 @@ public class UsuarioRestController {
 	public Usuario verSeguido(@PathVariable Long idSeguidor, @PathVariable Long idSeguido)
 	{
 		return usuarioService.findSeguido(idSeguidor, idSeguido);
+	}
+	
+	@PostMapping("/usuario")
+	public ResponseEntity<?> crearUsuario(@RequestBody Usuario usuario)
+	{
+		Usuario usuarioNew = null;
+		List<Role> roles = usuario.getRoles();
+		Role role = roleService.buscarRolePorNombre("ROLE_USER");
+		roles.add(role);
+		usuario.setRoles(roles);
+		
+		Map<String, Object> response = new HashMap<>();
+		
+		try
+		{
+			usuarioNew = usuarioService.save(usuario);
+		}
+		catch(DataAccessException e)
+		{
+			response.put("mensaje", "Error al realizar el insert en la base de datos");
+			response.put("error", e.getMessage()
+					.concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		response.put("mensaje", "El usuario ha sido creado con éxito");
+		response.put("usuario", usuarioNew);
+		
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	
 	@GetMapping("/usuario/{idUsuario}/estanterias/{nombreEstanteria}")

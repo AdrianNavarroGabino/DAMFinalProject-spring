@@ -59,7 +59,9 @@ public class Estanteria implements Serializable {
 		this.libros = libros;
 	}
 
-
+	public void addLibro(Libro libro) {
+		this.libros.add(libro);
+	}
 
 	/**
 	 * 

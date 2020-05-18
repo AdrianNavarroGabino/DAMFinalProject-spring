@@ -63,12 +63,6 @@ public class LibroRestController {
 		return libroService.findRandomLibros();
 	}
 	
-	@GetMapping("/autor/{autor}/page/{page}")
-	public Page<Libro> librosPorAutor(@PathVariable Long autor, @PathVariable Integer page) {
-		Pageable pageable = PageRequest.of(page, 10);
-		return libroService.findLibrosPorAutor(autor, pageable);
-	}
-	
 	@GetMapping("/{buscar}/page/{page}")
 	public Page<Libro> buscarLibros(@PathVariable String buscar, @PathVariable Integer page) {
 		Pageable pageable = PageRequest.of(page, 10);

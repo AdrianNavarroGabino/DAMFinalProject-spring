@@ -26,8 +26,6 @@ import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 @Entity
 @Table(name = "usuarios")
 public class Usuario implements Serializable {
@@ -77,10 +75,10 @@ public class Usuario implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date accesoActual;
 
-	@ManyToMany(mappedBy = "usuarios")
-	private List<Grupo> grupos;
+	/*@ManyToMany(mappedBy = "usuarios")
+	private List<Grupo> grupos;*/
 	
-	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	//@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "usuario_id")
 	private List<Estanteria> estanterias;
@@ -90,6 +88,12 @@ public class Usuario implements Serializable {
 		inverseJoinColumns = @JoinColumn(name = "rol_id"), uniqueConstraints = {
 			@UniqueConstraint(columnNames = { "usuario_id", "rol_id" }) })
 	private List<Role> roles;
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "usuarios_seguir", joinColumns = @JoinColumn(name = "seguidor"),
+	inverseJoinColumns = @JoinColumn(name = "seguido"), uniqueConstraints = {
+		@UniqueConstraint(columnNames = { "seguidor", "seguido" }) })
+	private List<Usuario> seguidos;
 	
 	@PrePersist
 	public void prePersist() {
@@ -169,14 +173,6 @@ public class Usuario implements Serializable {
 		this.accesoActual = accesoActual;
 	}
 
-	public List<Grupo> getGrupos() {
-		return grupos;
-	}
-
-	public void setGrupos(List<Grupo> grupos) {
-		this.grupos = grupos;
-	}
-
 	public boolean isEnabled() {
 		return enabled;
 	}
@@ -191,6 +187,10 @@ public class Usuario implements Serializable {
 
 	public void setEstanterias(List<Estanteria> estanterias) {
 		this.estanterias = estanterias;
+	}
+	
+	public void addEstanteria(Estanteria estanteria) {
+		this.estanterias.add(estanteria);
 	}
 
 	public List<Role> getRoles() {

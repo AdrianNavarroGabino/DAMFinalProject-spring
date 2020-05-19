@@ -27,6 +27,7 @@ import com.adriannavarrogabino.models.entity.Libro;
 import com.adriannavarrogabino.models.entity.Role;
 import com.adriannavarrogabino.models.entity.Usuario;
 import com.adriannavarrogabino.models.services.IEstanteriaService;
+import com.adriannavarrogabino.models.services.ILibroService;
 import com.adriannavarrogabino.models.services.IRoleService;
 import com.adriannavarrogabino.models.services.IUsuarioService;
 
@@ -40,6 +41,8 @@ public class UsuarioRestController {
 	@Autowired IEstanteriaService estanteriaService;
 	
 	@Autowired IRoleService roleService;
+	
+	@Autowired ILibroService libroService;
 	
 	@Autowired BCryptPasswordEncoder passwordEncoder;
 	
@@ -119,11 +122,12 @@ public class UsuarioRestController {
 		return usuarioService.save(u);
 	}
 	
-	@PutMapping("/usuario/estanterias")
+	@PutMapping("/usuario/estanterias/{idEstanteria}")
 	public Estanteria addLibroEstanteria(@PathVariable Long idEstanteria, @RequestBody Libro libro) {
 		Estanteria estanteria = estanteriaService.findById(idEstanteria);
+		Libro l = libroService.findById(libro.getId());
 		
-		estanteria.addLibro(libro);
+		estanteria.addLibro(l);
 		
 		return estanteriaService.save(estanteria);
 	}

@@ -69,13 +69,6 @@ public class LibroRestController {
 		return libroService.buscarLibros(buscar, pageable);
 	}
 	
-	@GetMapping("/libros/android/page/{page}")
-	public Page<Libro> indexAndroid(@PathVariable Integer page)
-	{
-		Pageable pageable = PageRequest.of(page, 5);
-		return libroService.findAll(pageable);
-	}
-	
 	@GetMapping("/libros/generos/{idGenero}/page/{page}")
 	public Page<Libro> librosPorAutor(@PathVariable Long idGenero, @PathVariable Integer page) {
 		Pageable pageable = PageRequest.of(page, 10);
@@ -107,6 +100,12 @@ public class LibroRestController {
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<Libro>(libro, HttpStatus.OK);
+	}
+	
+	@GetMapping("/libros/estanterias/{idEstanteria}/page/{page}")
+	public Page<Libro> getEstanteria(@PathVariable Long idEstanteria, @PathVariable Integer page) {
+		Pageable pageable = PageRequest.of(page, 10);
+		return libroService.findEstanteria(idEstanteria, pageable);
 	}
 	
 	@Secured({"ROLE_USER", "ROLE_ADMIN"})

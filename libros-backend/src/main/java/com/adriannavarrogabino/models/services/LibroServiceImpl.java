@@ -69,4 +69,10 @@ public class LibroServiceImpl implements ILibroService {
 	public Page<Libro> findLibrosPorGenero(Long id, Pageable pageable) {
 		return libroDao.findLibrosPorGenero(id, pageable);
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Page<Libro> findEstanteria(Long idEstanteria, Pageable pageable) {
+		return libroDao.findEstanteria(idEstanteria, pageable);
+	}
 }

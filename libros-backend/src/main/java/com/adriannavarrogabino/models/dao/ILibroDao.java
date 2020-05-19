@@ -22,4 +22,7 @@ public interface ILibroDao extends JpaRepository<Libro, Long> {
 	
 	@Query(value = "SELECT * FROM libros WHERE UPPER(titulo) LIKE '%'||?1||'%' OR id_autor IN (SELECT id FROM autores WHERE UPPER(nombre) LIKE '%'||?1||'%')", nativeQuery = true)
 	public Page<Libro> buscarLibros(String buscar, Pageable pageable);
+	
+	@Query(value = "SELECT * FROM libros WHERE id IN (SELECT libro_id FROM estanterias_libros WHERE estanteria_id = ?1)", nativeQuery = true)
+	public Page<Libro> findEstanteria(Long idEstanteria, Pageable pageable);
 }

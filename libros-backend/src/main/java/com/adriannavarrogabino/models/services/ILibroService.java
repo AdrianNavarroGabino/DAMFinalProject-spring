@@ -21,6 +21,8 @@ public interface ILibroService {
 	
 	public Page<Libro> findLibrosPorGenero(Long id, Pageable pageable);
 	
+	public Page<Libro> findEstanteria(Long idEstanteria, Pageable pageable);
+	
 	public Libro findById(Long id);
 	
 	public Libro save(Libro libro);

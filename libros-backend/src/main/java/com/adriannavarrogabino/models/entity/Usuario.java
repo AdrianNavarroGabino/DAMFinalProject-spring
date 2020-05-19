@@ -75,26 +75,29 @@ public class Usuario implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date accesoActual;
 
-	/*@ManyToMany(mappedBy = "usuarios")
-	private List<Grupo> grupos;*/
-	
-	//@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	/*
+	 * @ManyToMany(mappedBy = "usuarios") private List<Grupo> grupos;
+	 */
+
+	// @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "usuario_id")
 	private List<Estanteria> estanterias;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "usuarios_roles", joinColumns = @JoinColumn(name = "usuario_id"),
-		inverseJoinColumns = @JoinColumn(name = "rol_id"), uniqueConstraints = {
+	@JoinTable(name = "usuarios_roles", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "rol_id"), uniqueConstraints = {
 			@UniqueConstraint(columnNames = { "usuario_id", "rol_id" }) })
 	private List<Role> roles;
-	
+
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "usuarios_seguir", joinColumns = @JoinColumn(name = "seguidor"),
-	inverseJoinColumns = @JoinColumn(name = "seguido"), uniqueConstraints = {
-		@UniqueConstraint(columnNames = { "seguidor", "seguido" }) })
+	@JoinTable(name = "usuarios_seguir", joinColumns = @JoinColumn(name = "seguidor"), inverseJoinColumns = @JoinColumn(name = "seguido"), uniqueConstraints = {
+			@UniqueConstraint(columnNames = { "seguidor", "seguido" }) })
 	private List<Usuario> seguidos;
-	
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "usuario_id")
+	private List<Notificacion> notificaciones;
+
 	@PrePersist
 	public void prePersist() {
 		this.ultimoAcceso = new Date();
@@ -188,7 +191,7 @@ public class Usuario implements Serializable {
 	public void setEstanterias(List<Estanteria> estanterias) {
 		this.estanterias = estanterias;
 	}
-	
+
 	public void addEstanteria(Estanteria estanteria) {
 		this.estanterias.add(estanteria);
 	}
@@ -209,7 +212,13 @@ public class Usuario implements Serializable {
 		this.seguidos = seguidos;
 	}
 
+	public List<Notificacion> getNotificaciones() {
+		return notificaciones;
+	}
 
+	public void setNotificaciones(List<Notificacion> notificaciones) {
+		this.notificaciones = notificaciones;
+	}
 
 	/**
 	 * 

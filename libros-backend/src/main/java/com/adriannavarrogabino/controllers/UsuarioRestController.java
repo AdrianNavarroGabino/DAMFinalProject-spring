@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.adriannavarrogabino.models.entity.Estanteria;
 import com.adriannavarrogabino.models.entity.Libro;
+import com.adriannavarrogabino.models.entity.Notificacion;
 import com.adriannavarrogabino.models.entity.Role;
 import com.adriannavarrogabino.models.entity.Usuario;
 import com.adriannavarrogabino.models.services.IEstanteriaService;
@@ -169,5 +170,39 @@ public class UsuarioRestController {
 		usuario.setAccesoActual(new Date());
 		
 		return usuarioService.save(usuario);
+	}
+	
+	@PutMapping("/usuario/notificaciones/{id}")
+	public Usuario marcarNotificacionesLeidas(@PathVariable Long id) {
+		Usuario u = usuarioService.findById(id);
+		
+		List<Notificacion> notificaciones = u.getNotificaciones();
+		
+		for(Notificacion n: notificaciones) {
+			n.setLeido(true);
+		}
+		
+		u.setNotificaciones(notificaciones);
+		
+		return usuarioService.save(u);
+	}
+	
+	@PutMapping("/usuario/notificaciones/nueva/{id}")
+	public Usuario addNotificacion(@PathVariable Long id, @RequestBody String notificacion) {
+		Usuario u = usuarioService.findById(id);
+		
+		List<Notificacion> notificaciones = u.getNotificaciones();
+		
+		Notificacion n = new Notificacion();
+		
+		n.setFecha(new Date());
+		n.setLeido(false);
+		n.setNotificacion(notificacion);
+		
+		notificaciones.add(n);
+		
+		u.setNotificaciones(notificaciones);
+		
+		return usuarioService.save(u);
 	}
 }

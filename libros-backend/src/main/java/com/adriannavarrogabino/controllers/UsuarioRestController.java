@@ -1,5 +1,6 @@
 package com.adriannavarrogabino.controllers;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,6 +40,8 @@ public class UsuarioRestController {
 	@Autowired IEstanteriaService estanteriaService;
 	
 	@Autowired IRoleService roleService;
+	
+	@Autowired BCryptPasswordEncoder passwordEncoder;
 	
 	@GetMapping("/usuarios")
 	public List<Usuario> index() {
@@ -71,6 +75,7 @@ public class UsuarioRestController {
 		Role role = roleService.buscarRolePorNombre("ROLE_USER");
 		roles.add(role);
 		usuario.setRoles(roles);
+		usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
 		
 		Map<String, Object> response = new HashMap<>();
 		
@@ -150,5 +155,15 @@ public class UsuarioRestController {
 		seguidor.setSeguidos(seguidos);
 		
 		return usuarioService.save(seguidor);
+	}
+	
+	@PutMapping("/usuario/ultimoacceso/{username}")
+	public Usuario actualizarUltimoAcceso(@PathVariable String username) {
+		Usuario usuario = usuarioService.findByUsername(username);
+		
+		usuario.setUltimoAcceso(usuario.getAccesoActual());
+		usuario.setAccesoActual(new Date());
+		
+		return usuarioService.save(usuario);
 	}
 }

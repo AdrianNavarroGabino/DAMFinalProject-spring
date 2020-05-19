@@ -1,8 +1,8 @@
 package com.adriannavarrogabino.models.services;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,8 +17,7 @@ public class GeneroServiceImpl implements IGeneroService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<Genero> findAll() {
-		return (List<Genero>) generoDao.findAll();
+	public Page<Genero> findAll(Pageable pageable) {
+		return generoDao.findAll(pageable);
 	}
-
 }

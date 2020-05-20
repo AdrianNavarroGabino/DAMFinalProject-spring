@@ -118,12 +118,14 @@ public class UsuarioRestController {
 	}
 	
 	@PutMapping("/usuario/{idUsuario}/estanterias")
-	public Usuario addEstanteria(@PathVariable Long idUsuario)
-	{
+	public Usuario addEstanteria(@PathVariable Long idUsuario,
+			@RequestBody Estanteria estanteria) {
 		Usuario u = usuarioService.findById(idUsuario);
 		
 		List<Estanteria> estanterias =
 				estanteriaService.findEstanteriasPorUsuario(idUsuario);
+		
+		estanterias.add(estanteria);
 		
 		u.setEstanterias(estanterias);
 		

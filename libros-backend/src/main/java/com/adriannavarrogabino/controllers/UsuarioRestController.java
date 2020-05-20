@@ -66,7 +66,8 @@ public class UsuarioRestController {
 	}
 	
 	@GetMapping("/usuario/{idSeguidor}/{idSeguido}")
-	public Usuario verSeguido(@PathVariable Long idSeguidor, @PathVariable Long idSeguido)
+	public Usuario verSeguido(@PathVariable Long idSeguidor,
+			@PathVariable Long idSeguido)
 	{
 		return usuarioService.findSeguido(idSeguidor, idSeguido);
 	}
@@ -89,21 +90,26 @@ public class UsuarioRestController {
 		}
 		catch(DataAccessException e)
 		{
-			response.put("mensaje", "Error al realizar el insert en la base de datos");
-			response.put("error", e.getMessage()
-					.concat(": ").concat(e.getMostSpecificCause().getMessage()));
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+			response.put("mensaje",
+					"Error al realizar el insert en la base de datos");
+			response.put("error", e.getMessage().concat(": ")
+					.concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response,
+					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 		response.put("mensaje", "El usuario ha sido creado con éxito");
 		response.put("usuario", usuarioNew);
 		
-		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+		return new ResponseEntity<Map<String, Object>>(response,
+				HttpStatus.CREATED);
 	}
 	
 	@GetMapping("/usuario/{idUsuario}/estanterias/{nombreEstanteria}")
-	public Estanteria getEstanteria(@PathVariable Long idUsuario, @PathVariable String nombreEstanteria) {
-		return estanteriaService.findPorUsuarioYNombre(idUsuario, nombreEstanteria);
+	public Estanteria getEstanteria(@PathVariable Long idUsuario,
+			@PathVariable String nombreEstanteria) {
+		return estanteriaService.findPorUsuarioYNombre(
+				idUsuario, nombreEstanteria);
 	}
 	
 	@PostMapping("/usuario/estanterias")
@@ -116,7 +122,8 @@ public class UsuarioRestController {
 	{
 		Usuario u = usuarioService.findById(idUsuario);
 		
-		List<Estanteria> estanterias = estanteriaService.findEstanteriasPorUsuario(idUsuario);
+		List<Estanteria> estanterias =
+				estanteriaService.findEstanteriasPorUsuario(idUsuario);
 		
 		u.setEstanterias(estanterias);
 		
@@ -124,7 +131,8 @@ public class UsuarioRestController {
 	}
 	
 	@PutMapping("/usuario/estanterias/{idEstanteria}")
-	public Estanteria addLibroEstanteria(@PathVariable Long idEstanteria, @RequestBody Libro libro) {
+	public Estanteria addLibroEstanteria(@PathVariable Long idEstanteria,
+			@RequestBody Libro libro) {
 		Estanteria estanteria = estanteriaService.findById(idEstanteria);
 		Libro l = libroService.findById(libro.getId());
 		
@@ -134,7 +142,8 @@ public class UsuarioRestController {
 	}
 	
 	@PutMapping("/usuario/{idSeguidor}")
-	public Usuario addSeguido(@PathVariable Long idSeguidor, @RequestBody Usuario usuarioSeguido) {
+	public Usuario addSeguido(@PathVariable Long idSeguidor,
+			@RequestBody Usuario usuarioSeguido) {
 		Usuario seguidor = usuarioService.findById(idSeguidor);
 		
 		List<Usuario> seguidos = seguidor.getSeguidos();
@@ -147,7 +156,8 @@ public class UsuarioRestController {
 	}
 	
 	@PutMapping("/usuario/unfollow/{idSeguidor}")
-	public Usuario dejarDeSeguir(@PathVariable Long idSeguidor, @RequestBody Usuario usuarioSeguido) {
+	public Usuario dejarDeSeguir(@PathVariable Long idSeguidor,
+			@RequestBody Usuario usuarioSeguido) {
 		Usuario seguidor = usuarioService.findById(idSeguidor);
 		Usuario seguido = usuarioService.findById(usuarioSeguido.getId());
 		
@@ -188,7 +198,8 @@ public class UsuarioRestController {
 	}
 	
 	@PutMapping("/usuario/notificaciones/nueva/{id}")
-	public Usuario addNotificacion(@PathVariable Long id, @RequestBody String notificacion) {
+	public Usuario addNotificacion(@PathVariable Long id,
+			@RequestBody String notificacion) {
 		Usuario u = usuarioService.findById(id);
 		
 		List<Notificacion> notificaciones = u.getNotificaciones();

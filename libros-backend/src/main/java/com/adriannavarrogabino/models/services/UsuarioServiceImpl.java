@@ -50,23 +50,29 @@ public class UsuarioServiceImpl implements IUsuarioService, UserDetailsService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String username)
+			throws UsernameNotFoundException {
 
 		Usuario usuario = usuarioDao.findByUsername(username);
 		
 		if(usuario == null)
 		{
-			logger.error("Error en el login: no existe el usuario " + username + " en el sistema");
-			throw new UsernameNotFoundException("Error en el login: no existe el usuario " + username + " en el sistema");
+			logger.error("Error en el login: no existe el usuario " +
+					username + " en el sistema");
+			throw new UsernameNotFoundException(
+					"Error en el login: no existe el usuario " + username +
+					" en el sistema");
 		}
 		
 		List<GrantedAuthority> authorities = usuario.getRoles()
 				.stream()
 				.map(rol -> new SimpleGrantedAuthority(rol.getNombre()))
-				.peek(authority -> logger.info("Rol: " + authority.getAuthority()))
+				.peek(authority -> logger.info("Rol: " +
+						authority.getAuthority()))
 				.collect(Collectors.toList());
 		
-		return new User(username, usuario.getPassword(), usuario.isEnabled(), true, true, true, authorities);
+		return new User(username, usuario.getPassword(), usuario.isEnabled(),
+				true, true, true, authorities);
 	}
 
 	@Override

@@ -10,7 +10,8 @@ public interface IEstanteriaService {
 	
 	public Estanteria findById(Long id);
 	
-	public Estanteria findPorUsuarioYNombre(Long idUsuario, String nombreEstanteria);
+	public Estanteria findPorUsuarioYNombre(
+			Long idUsuario, String nombreEstanteria);
 	
 	public List<Estanteria> findEstanteriasPorUsuario(Long idUsuario);
 }

@@ -18,4 +18,6 @@ public List<Autor> findAll();
 	public Autor save(Autor autor);
 	
 	public void delete(Long id);
+	
+	public Autor buscarAutorPorNombre(String nombre);
 }

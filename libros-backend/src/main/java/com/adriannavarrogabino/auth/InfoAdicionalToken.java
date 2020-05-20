@@ -20,9 +20,12 @@ public class InfoAdicionalToken implements TokenEnhancer {
 	private IUsuarioService usuarioService;
 
 	@Override
-	public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
+	public OAuth2AccessToken enhance(
+			OAuth2AccessToken accessToken,
+			OAuth2Authentication authentication) {
 		
-		Usuario usuario = usuarioService.findByUsername(authentication.getName());
+		Usuario usuario = usuarioService.findByUsername(
+				authentication.getName());
 
 		Map<String, Object> info = new HashMap<String, Object>();
 		

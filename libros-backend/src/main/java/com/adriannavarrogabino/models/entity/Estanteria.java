@@ -13,6 +13,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+
 import javax.persistence.JoinColumn;
 import javax.persistence.UniqueConstraint;
 
@@ -32,7 +33,8 @@ public class Estanteria implements Serializable {
 	@JoinTable(name = "estanterias_libros",
 		joinColumns = @JoinColumn(name = "estanteria_id"),
 		inverseJoinColumns = @JoinColumn(name = "libro_id"),
-		uniqueConstraints = {@UniqueConstraint(columnNames = {"estanteria_id", "libro_id"})})
+		uniqueConstraints = {@UniqueConstraint(columnNames = {
+				"estanteria_id", "libro_id"})})
 	private List<Libro> libros;
 
 	public Long getId() {

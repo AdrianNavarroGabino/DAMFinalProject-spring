@@ -26,6 +26,8 @@ import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "usuarios")
 public class Usuario implements Serializable {
@@ -35,7 +37,8 @@ public class Usuario implements Serializable {
 	private Long id;
 
 	@NotEmpty(message = "El usuario no puede estar vacío")
-	@Size(min = 3, max = 20, message = "El tamaño del nombre tiene que estar entre 3 y 20")
+	@Size(min = 3, max = 20, message =
+			"El tamaño del nombre tiene que estar entre 3 y 20")
 	@Column(nullable = false, unique = true)
 	private String username;
 
@@ -46,12 +49,14 @@ public class Usuario implements Serializable {
 	private boolean enabled;
 
 	@NotEmpty(message = "El nombre no puede estar vacío")
-	@Size(min = 3, max = 25, message = "El tamaño del nombre tiene que estar entre 3 y 25")
+	@Size(min = 3, max = 25, message =
+			"El tamaño del nombre tiene que estar entre 3 y 25")
 	@Column(nullable = false)
 	private String nombre;
 
 	@NotEmpty(message = "Los apellidos no pueden estar vacíos")
-	@Size(min = 3, max = 25, message = "El tamaño de los apellidos tiene que estar entre 3 y 25")
+	@Size(min = 3, max = 25, message =
+			"El tamaño de los apellidos tiene que estar entre 3 y 25")
 	@Column(nullable = false)
 	private String apellidos;
 
@@ -75,22 +80,26 @@ public class Usuario implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date accesoActual;
 
-	/*
-	 * @ManyToMany(mappedBy = "usuarios") private List<Grupo> grupos;
-	 */
-
-	// @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "usuario_id")
 	private List<Estanteria> estanterias;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "usuarios_roles", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "rol_id"), uniqueConstraints = {
+	@JoinTable(name = "usuarios_roles",
+		joinColumns = @JoinColumn(name = "usuario_id"),
+		inverseJoinColumns = @JoinColumn(name = "rol_id"), uniqueConstraints = {
 			@UniqueConstraint(columnNames = { "usuario_id", "rol_id" }) })
 	private List<Role> roles;
 
+	@JsonIgnoreProperties(value = {
+			"seguidos", "hibernateLazyInitializer", "handler"},
+			allowSetters = true)
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "usuarios_seguir", joinColumns = @JoinColumn(name = "seguidor"), inverseJoinColumns = @JoinColumn(name = "seguido"), uniqueConstraints = {
+	@JoinTable(name = "usuarios_seguir",
+		joinColumns = @JoinColumn(name = "seguidor"),
+		inverseJoinColumns = @JoinColumn(name = "seguido"),
+		uniqueConstraints = {
 			@UniqueConstraint(columnNames = { "seguidor", "seguido" }) })
 	private List<Usuario> seguidos;
 

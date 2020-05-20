@@ -44,15 +44,17 @@ public class Libro implements Serializable {
 	private String idioma;
 
 	@Column(name = "anyo_publicacion")
-	private String anyoPublicacion;
+	private Integer anyoPublicacion;
 
 	private Double valoracion;
 
 	private Integer paginas;
 
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "libros_generos", joinColumns = @JoinColumn(name = "id_libro"),
-		inverseJoinColumns = @JoinColumn(name = "id_genero"), uniqueConstraints = {
+	@JoinTable(name = "libros_generos",
+		joinColumns = @JoinColumn(name = "id_libro"),
+		inverseJoinColumns = @JoinColumn(name = "id_genero"),
+		uniqueConstraints = {
 			@UniqueConstraint(columnNames = { "id_libro", "id_genero" }) })
 	private List<Genero> generos;
 
@@ -101,11 +103,11 @@ public class Libro implements Serializable {
 		this.idioma = idioma;
 	}
 
-	public String getAnyoPublicacion() {
+	public Integer getAnyoPublicacion() {
 		return anyoPublicacion;
 	}
 
-	public void setAnyoPublicacion(String anyoPublicacion) {
+	public void setAnyoPublicacion(Integer anyoPublicacion) {
 		this.anyoPublicacion = anyoPublicacion;
 	}
 

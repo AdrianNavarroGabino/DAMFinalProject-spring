@@ -47,4 +47,11 @@ public class AutorServiceImpl implements IAutorService {
 		autorDao.deleteById(id);
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public Autor buscarAutorPorNombre(String nombre) {
+		
+		return autorDao.buscarAutorPorNombre(nombre).orElse(null);
+	}
+
 }

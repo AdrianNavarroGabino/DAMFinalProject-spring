@@ -22,9 +22,12 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 
-		http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/generos/**", "/api/autores/**", "/api/libros/rnd", "/api/uploads/img/**", "/images/no-portada.png", "/api/notificaciones/**").permitAll()
+		http.authorizeRequests().antMatchers(
+				HttpMethod.GET, "/api/libros/{id}", "/api/libros/rnd",
+				"/api/uploads/img/**", "/images/no-portada.png").permitAll()
 			.antMatchers(HttpMethod.POST, "/api/usuario").permitAll()
-			.antMatchers(HttpMethod.PUT, "/api/usuario/ultimoacceso/**").permitAll()
+			.antMatchers(
+					HttpMethod.PUT, "/api/usuario/ultimoacceso/**").permitAll()
 			.anyRequest().authenticated()
 			.and().cors().configurationSource(corsConfigurationSource());
 	}
@@ -32,12 +35,16 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	@Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200", "*"));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedOrigins(Arrays.asList(
+        		"http://localhost:4200", "*"));
+        configuration.setAllowedMethods(Arrays.asList(
+        		"GET","POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowCredentials(true);
-        configuration.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization"));
+        configuration.setAllowedHeaders(
+        		Arrays.asList("Content-Type", "Authorization"));
         
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        UrlBasedCorsConfigurationSource source =
+        		new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         
         return source;
@@ -46,7 +53,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	@Bean
 	public FilterRegistrationBean<CorsFilter> corsFilter()
 	{
-		FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<CorsFilter>(new CorsFilter(corsConfigurationSource()));
+		FilterRegistrationBean<CorsFilter> bean =
+				new FilterRegistrationBean<CorsFilter>(
+						new CorsFilter(corsConfigurationSource()));
 		bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
 		return bean;
 	}

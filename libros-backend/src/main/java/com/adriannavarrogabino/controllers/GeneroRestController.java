@@ -1,5 +1,7 @@
 package com.adriannavarrogabino.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,8 +24,18 @@ public class GeneroRestController {
 	private IGeneroService generoService;
 	
 	@GetMapping("/generos/page/{page}")
-	public Page<Genero> showGeneros(@PathVariable Integer page) {
+	public Page<Genero> showGenerosPage(@PathVariable Integer page) {
 		Pageable pageable = PageRequest.of(page, 10);
 		return generoService.findAll(pageable);
+	}
+	
+	@GetMapping("/generos")
+	public List<Genero> showGeneros() {
+		return generoService.findAll();
+	}
+	
+	@GetMapping("/generos/{id}")
+	public Genero getById(@PathVariable Long id) {
+		return generoService.findById(id);
 	}
 }

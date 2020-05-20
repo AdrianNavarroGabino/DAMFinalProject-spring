@@ -27,8 +27,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	@Autowired
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(this.usuarioService).passwordEncoder(passwordEncoder());
+	protected void configure(
+			AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(this.usuarioService)
+			.passwordEncoder(passwordEncoder());
 	}
 	
 	@Bean("authenticationManager")
@@ -45,6 +47,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 			.anyRequest().authenticated()
 			.and()
 			.csrf().disable()
-			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+			.sessionManagement()
+			.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
 }

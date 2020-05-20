@@ -31,8 +31,10 @@ public class EstanteriaServiceImpl implements IEstanteriaService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Estanteria findPorUsuarioYNombre(Long idUsuario, String nombreEstanteria) {
-		return estanteriaDao.findPorUsuarioYNombre(idUsuario, nombreEstanteria).orElse(null);
+	public Estanteria findPorUsuarioYNombre(
+			Long idUsuario, String nombreEstanteria) {
+		return estanteriaDao.findPorUsuarioYNombre(idUsuario, nombreEstanteria)
+				.orElse(null);
 	}
 
 	@Override

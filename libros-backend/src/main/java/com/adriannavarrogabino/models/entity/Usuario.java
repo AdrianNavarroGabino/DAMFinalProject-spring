@@ -85,7 +85,7 @@ public class Usuario implements Serializable {
 	@JoinColumn(name = "usuario_id")
 	private List<Estanteria> estanterias;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	@JoinTable(name = "usuarios_roles",
 		joinColumns = @JoinColumn(name = "usuario_id"),
 		inverseJoinColumns = @JoinColumn(name = "rol_id"), uniqueConstraints = {
@@ -95,7 +95,7 @@ public class Usuario implements Serializable {
 	@JsonIgnoreProperties(value = {
 			"seguidos", "hibernateLazyInitializer", "handler"},
 			allowSetters = true)
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	@JoinTable(name = "usuarios_seguir",
 		joinColumns = @JoinColumn(name = "seguidor"),
 		inverseJoinColumns = @JoinColumn(name = "seguido"),

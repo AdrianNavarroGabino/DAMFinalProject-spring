@@ -147,10 +147,11 @@ public class UsuarioRestController {
 	public Usuario addSeguido(@PathVariable Long idSeguidor,
 			@RequestBody Usuario usuarioSeguido) {
 		Usuario seguidor = usuarioService.findById(idSeguidor);
+		Usuario seguido = usuarioService.findById(usuarioSeguido.getId());
 		
 		List<Usuario> seguidos = seguidor.getSeguidos();
 		
-		seguidos.add(usuarioSeguido);
+		seguidos.add(seguido);
 		
 		seguidor.setSeguidos(seguidos);
 		
